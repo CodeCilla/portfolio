@@ -3,13 +3,13 @@
 .project__item {
   // 1. Structure de base (Mobile First)
   position: relative;
-  width: 100%; // On laisse la Grille Parent (CSS Grid) gérer la largeur
-  height: 330px; // Hauteur mobile
+  width: 100%; 
+  height: 330px; 
   border-radius: 20px;
-  overflow: hidden; // Coupe tout ce qui dépasse (image zoomée)
+  overflow: hidden; 
   cursor: pointer;
 
-  // Bordure déplacée sur le conteneur principal pour la propreté
+  // Bordure
   border: 2px solid utils.$neutral-0;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
@@ -22,12 +22,10 @@
   // 3. Animation au survol (Zoom)
   &:hover {
     .project__item--cover {
-      transform: scale(1.1); // Zoom léger de l'image
+      transform: scale(1.1); 
     }
-
-    // Optionnel : éclaircir l'overlay au survol
     &::after {
-      background: rgba(0, 0, 0, 0.3); // Devient un peu plus clair
+      background: rgba(0, 0, 0, 0.3); 
     }
   }
 
@@ -37,12 +35,10 @@
     height: 100%;
     background-size: cover;
     background-position: center;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Animation fluide
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  // 5. L'Overlay (Le filtre sombre)
-  // J'utilise ::after sur le parent pour qu'il soit au-dessus de l'image
-  // mais en dessous du texte.
+  // 5. L'Overlay
   &::after {
     content: '';
     position: absolute;
@@ -50,33 +46,72 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); // Sombre par défaut
+    background: rgba(0, 0, 0, 0.5); 
     transition: background 0.3s ease;
-    z-index: 1; // Au-dessus de l'image
+    z-index: 1; 
   }
 
-  // 6. Le Titre
-  &--title {
-    @include utils.font(m, utils.$neutral-0, bold);
+  // --- NOUVEAU CONTENEUR DE CONTENU (Titre + Skills) ---
+  // On déplace le positionnement absolu ici pour grouper les éléments
+  &--content {
     position: absolute;
     bottom: 20px;
-    left: 20px; // Un peu moins de marge sur mobile
-    right: 20px; // Empêche le texte de sortir à droite
+    left: 20px;
+    right: 20px;
     z-index: 2; // Au-dessus de l'overlay
+    display: flex;
+    flex-direction: column;
+    gap: 10px; // Espace entre le titre et les badges
+  }
+
+  // 6. Le Titre (Modifié)
+  // Il n'est plus en absolute, il suit le flux du conteneur
+  &--title {
+    @include utils.font(m, utils.$neutral-0, bold);
     line-height: 1.3;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); // Meilleure lisibilité
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    margin: 0;
+  }
+
+  // 7. Les Skills (Nouveau)
+  &--skills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &--skill-badge {
+    @include utils.font(xs, utils.$neutral-0, regular); // Police petite
+    padding: 4px 10px;
+    border-radius: 12px;
+    
+    // Style "Glassmorphism" léger pour aller avec le thème sombre
+    background-color: rgba(255, 255, 255, 0.15); 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(2px); // Effet de flou derrière le badge (support moderne)
+    
+    white-space: nowrap; // Empêche le texte du badge de se couper
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   }
 }
 
 // ✅ Responsive Desktop
 @media screen and (min-width: 768px) {
   .project__item {
-    height: 400px; // Plus grand sur desktop
+    height: 400px; 
 
-    &--title {
+    // On cible maintenant le conteneur global pour le positionnement
+    &--content {
       bottom: 30px;
       left: 30px;
-      font-size: 1.5rem; // Titre plus gros si nécessaire (ou géré par ton mixin font)
+    }
+
+    &--title {
+      font-size: 1.5rem; 
     }
   }
 }

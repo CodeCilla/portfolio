@@ -83,6 +83,7 @@ const Gallery = () => {
                 // Attention : On passe bien project.imageUrl ici
                 image={project.imageUrl} 
                 title={project.title}
+                skills={project.skills}
                 onClick={() => openModal(project._id)}
               />
             ))
