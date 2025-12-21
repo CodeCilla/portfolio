@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState, useEffect } from 'react'; // Ajout de useEffect
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useProjectSubmit from '../../utils/hooks/useProjectSubmit';
 import { fetchProjects } from '../../api';
@@ -8,16 +8,12 @@ import './style.scss';
 
 // Ajout des props pour l'édition
 const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
-  const { register, handleSubmit, reset, watch, setValue } = useForm();
-  
-  // Note: Ton hook useProjectSubmit devra sans doute être adapté pour gérer les PUT (update)
-  // ou tu devras créer une fonction spécifique pour l'update ici.
+  const { register, handleSubmit, reset, setValue } = useForm();
+
   const { handleProjectSubmit, isLoading, error } = useProjectSubmit();
 
   const [skills, setSkills] = useState([]);
   const [skillInput, setSkillInput] = useState('');
-
-  const isConfidential = watch('isConfidential');
 
   // --- EFFET : PRÉ-REMPLISSAGE DU FORMULAIRE EN CAS D'ÉDITION ---
   useEffect(() => {
@@ -27,8 +23,7 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
       setValue('description', projectToEdit.description);
       setValue('github', projectToEdit.github || '');
       setValue('link', projectToEdit.link || '');
-      setValue('isConfidential', projectToEdit.isConfidential || false);
-      
+
       // On remplit les skills
       setSkills(projectToEdit.skills || []);
     }
@@ -48,7 +43,9 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
 
   // --- ANNULATION DE L'ÉDITION ---
   const handleCancelEdit = () => {
-    setProjectToEdit(null);
+    if (setProjectToEdit) {
+      setProjectToEdit(null);
+    }
     reset();
     setSkills([]);
   };
@@ -56,50 +53,59 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
   // --- SOUMISSION ---
   const onFormSubmit = async (data) => {
     const formData = new FormData();
-    
+
     // Si on est en édition, on envoie probablement l'ID
     if (projectToEdit) {
-        formData.append('id', projectToEdit._id);
+      formData.append('id', projectToEdit._id);
     }
 
     const projectData = {
-        title: data.title,
-        description: data.description,
-        github: data.github || '',
-        link: data.link || '',
-        isConfidential: data.isConfidential || false,
-        skills: skills,
+      title: data.title,
+      description: data.description,
+      github: data.github || '',
+      link: data.link || '',
+      skills: skills,
     };
 
     formData.append('project', JSON.stringify(projectData));
 
     // L'image est optionnelle en mode édition (si on ne change pas l'image)
     if (data.image && data.image[0]) {
-        formData.append('image', data.image[0]);
+      formData.append('image', data.image[0]);
     }
 
-    // ATTENTION : Ici, ton hook handleProjectSubmit doit savoir s'il fait un POST ou un PUT
-    // S'il ne gère que le POST, l'update ne marchera pas côté serveur.
     await handleProjectSubmit(formData);
 
     const updatedProjects = await fetchProjects();
     setProjects(updatedProjects);
-    
+
     // Reset complet
     handleCancelEdit();
   };
 
   return (
     <form className='project-form' onSubmit={handleSubmit(onFormSubmit)}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 className='project-form__title'>
-            {projectToEdit ? `Modifier : ${projectToEdit.title}` : 'Nouveau projet'}
-          </h2>
-          {projectToEdit && (
-              <button type="button" onClick={handleCancelEdit} style={{ fontSize: '0.8rem', cursor: 'pointer' }}>
-                  Annuler modif
-              </button>
-          )}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <h2 className='project-form__title'>
+          {projectToEdit
+            ? `Modifier : ${projectToEdit.title}`
+            : 'Nouveau projet'}
+        </h2>
+        {projectToEdit && (
+          <button
+            type='button'
+            onClick={handleCancelEdit}
+            style={{ fontSize: '0.8rem', cursor: 'pointer' }}
+          >
+            Annuler modif
+          </button>
+        )}
       </div>
 
       {/* --- TITRE --- */}
@@ -116,13 +122,15 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
       {/* --- IMAGE --- */}
       <div className='project-form__group'>
         <label htmlFor='image'>Image de couverture</label>
-        {projectToEdit && <small>(Laisser vide pour conserver l&aposimage actuelle)</small>}
+        {projectToEdit && (
+          <small>(Laisser vide pour conserver l&apos;image actuelle)</small>
+        )}
         <input
           id='image'
           type='file'
           accept='image/*'
           // L'image est requise SEULEMENT si ce n'est pas une édition
-          {...register('image', { required: !projectToEdit })} 
+          {...register('image', { required: !projectToEdit })}
           className='project-form__input'
         />
       </div>
@@ -146,11 +154,17 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
             id='skills'
             value={skillInput}
             onChange={(e) => setSkillInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSkill())}
+            onKeyDown={(e) =>
+              e.key === 'Enter' && (e.preventDefault(), handleAddSkill())
+            }
             placeholder='Ex: React, Python...'
             className='project-form__input'
           />
-          <button type='button' onClick={handleAddSkill} className='project-form__add-button'>
+          <button
+            type='button'
+            onClick={handleAddSkill}
+            className='project-form__add-button'
+          >
             Ajouter
           </button>
         </div>
@@ -167,28 +181,16 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
 
       <hr />
 
-      {/* --- OPTIONS --- */}
-      <div className='project-form__group checkbox-group'>
-        <label className="checkbox-label">
-            <input 
-                type="checkbox" 
-                {...register('isConfidential')} 
-            />
-            Projet Confidentiel (Entreprise)
-        </label>
+      {/* --- LIENS (Toujours visibles maintenant) --- */}
+      <div className='project-form__group'>
+        <label htmlFor='github'>Lien Github (Optionnel)</label>
+        <input
+          id='github'
+          {...register('github')}
+          placeholder='https://github.com/...'
+          className='project-form__input'
+        />
       </div>
-
-      {!isConfidential && (
-          <div className='project-form__group'>
-            <label htmlFor='github'>Lien Github</label>
-            <input
-              id='github'
-              {...register('github')}
-              placeholder='https://github.com/...'
-              className='project-form__input'
-            />
-          </div>
-      )}
 
       <div className='project-form__group'>
         <label htmlFor='link'>Lien vers le site (Optionnel)</label>
@@ -201,7 +203,13 @@ const ProjectForm = ({ setProjects, projectToEdit, setProjectToEdit }) => {
       </div>
 
       <Button
-        Text={isLoading ? 'Envoi...' : (projectToEdit ? 'Mettre à jour' : 'Créer le projet')}
+        Text={
+          isLoading
+            ? 'Envoi...'
+            : projectToEdit
+            ? 'Mettre à jour'
+            : 'Créer le projet'
+        }
         type='submit'
         disabled={isLoading}
       />

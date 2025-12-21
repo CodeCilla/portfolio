@@ -8,7 +8,6 @@ const projectSchema = mongoose.Schema({
   skills: { type: [String], required: true },
   github: { type: String, required: false },
   link: { type: String, required: false },
-  isConfidential: { type: Boolean, default: false } 
 });
 
 module.exports = mongoose.model('Project', projectSchema);

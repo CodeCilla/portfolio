@@ -31,7 +31,7 @@
 
     // Scrollbar
     scrollbar-width: thin;
-    scrollbar-color: utils.$primary utils.$neutral-700;
+    scrollbar-color: utils.$primary utils.$neutral-900;
     &::-webkit-scrollbar {
       width: 6px;
     }
@@ -144,7 +144,7 @@
           justify-content: center;
 
           .tag {
-            background: utils.$neutral-700;
+            background: utils.$neutral-900;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
