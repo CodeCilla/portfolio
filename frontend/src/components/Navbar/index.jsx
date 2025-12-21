@@ -37,7 +37,6 @@ const Navbar = () => {
   // Menu items with CV button included
   const homeMenuItems = [
     { id: 'about', label: 'Présentation', type: 'link' },
-    { id: 'skills', label: 'Compétences', type: 'link' },
     { id: 'projects', label: 'Projets', type: 'link' },
     { id: 'contact', label: 'Contact', type: 'link' },
     { id: 'cv', label: 'CV', type: 'button' }, // CV as a button

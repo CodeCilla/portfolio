@@ -29,7 +29,7 @@ const Header = () => {
               <span className='header__details--text'>Le Mans France</span>
             </span>
             <p className='header__details--text'>
-              Recherche Apprentissage Bac+3 <br />
+              Recherche Apprentissage Bac+5 <br />
             </p>
           </div>
           <div className='header__socials'>
