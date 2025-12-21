@@ -8,6 +8,7 @@ const ProjectUpdate = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [projectToEdit, setProjectToEdit] = useState(null);
 
   const {
     deleteProject,
@@ -35,16 +36,29 @@ const ProjectUpdate = () => {
   }, []);
 
   const handleDelete = async (projectId) => {
-    await deleteProject(projectId);
-    setProjects((prevProjects) =>
-      prevProjects.filter((project) => project._id !== projectId),
-    );
+    if (window.confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')) {
+      await deleteProject(projectId);
+      setProjects((prevProjects) =>
+        prevProjects.filter((project) => project._id !== projectId),
+      );
+    }
+  };
+
+  const handleEdit = (project) => {
+    setProjectToEdit(project);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div>
-      <ProjectForm setProjects={setProjects} />
+    <div className='project-update-container'>
+      <ProjectForm
+        setProjects={setProjects}
+        projectToEdit={projectToEdit}
+        setProjectToEdit={setProjectToEdit}
+      />
+
       <h2>Mise à jour des Projets</h2>
+
       {loading && <p>Chargement des projets...</p>}
       {error && <p className='error-message'>Erreur : {error}</p>}
       {deleteError && (
@@ -54,69 +68,94 @@ const ProjectUpdate = () => {
       {!loading && projects.length === 0 && <p>Aucun projet à afficher</p>}
 
       {!loading && projects.length > 0 && (
-        <table className='project-table'>
-          <thead className='project-table__header'>
-            <tr>
-              <th className='project-table__header-cell'>#</th>
-              <th className='project-table__header-cell'>Nom du Projet</th>
-              <th className='project-table__header-cell'>Image</th>
-              <th className='project-table__header-cell'>Description</th>
-              <th className='project-table__header-cell'>Compétences</th>
-              <th className='project-table__header-cell'>Problématiques</th>
-              <th className='project-table__header-cell'>Github</th>
-              <th className='project-table__header-cell'>Actions</th>
-            </tr>
-          </thead>
-          <tbody className='project-table__body'>
-            {projects.map((project, index) => (
-              <tr key={project._id} className='project-table__body-row'>
-                <td className='project-table__body-row-cell'>{index + 1}</td>
-                <td className='project-table__body-row-cell'>
-                  {project.title}
-                </td>
-                <td className='project-table__body-row-cell project-table__body-row-cell--image'>
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    style={{
-                      width: '50px',
-                      height: '50px',
-                      objectFit: 'cover',
-                    }}
-                  />
-                </td>
-                <td className='project-table__body-row-cell'>
-                  {project.description}
-                </td>
-                <td className='project-table__body-row-cell'>
-                  {project.skills.join(', ')}
-                </td>
-                <td className='project-table__body-row-cell'>
-                  {project.issues.join(', ')}
-                </td>
+        <div className='table-responsive'>
+          <table className='project-table'>
+            <thead className='project-table__header'>
+              <tr>
+                <th className='project-table__header-cell'>#</th>
+                <th className='project-table__header-cell'>Nom</th>
+                <th className='project-table__header-cell'>Image</th>
+                <th className='project-table__header-cell'>Description</th>
+                <th className='project-table__header-cell'>Compétences</th>
 
-                <td className='project-table__body-row-cell'>
-                  <a
-                    href={project.github}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    Lien Github
-                  </a>
-                </td>
-                <td className='project-table__body-row-cell project-table__body-row-cell--actions'>
-                  <button
-                    className='project-table__button project-table__button--delete'
-                    onClick={() => handleDelete(project._id)}
-                    disabled={isDeleting} // Désactiver le bouton pendant la suppression
-                  >
-                    {isDeleting ? 'Suppression...' : 'Supprimer'}
-                  </button>
-                </td>
+                {/* Github et Lien regroupés ou séparés selon ton choix */}
+                <th className='project-table__header-cell'>Liens</th>
+                <th className='project-table__header-cell'>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className='project-table__body'>
+              {projects.map((project, index) => (
+                <tr key={project._id} className='project-table__body-row'>
+                  <td className='project-table__body-row-cell'>{index + 1}</td>
+
+                  <td className='project-table__body-row-cell'>
+                    {project.title}
+                  </td>
+
+                  {/* CORRECTION : usage de imageUrl au lieu de image */}
+                  <td className='project-table__body-row-cell project-table__body-row-cell--image'>
+                    <img src={project.imageUrl} alt={project.title} />
+                  </td>
+
+                  <td className='project-table__body-row-cell'>
+                    {project.description}
+                  </td>
+
+                  <td className='project-table__body-row-cell'>
+                    {project.skills ? project.skills.join(', ') : ''}
+                  </td>
+
+                  {/* NOUVEAU : Colonne Liens (Github + Link) */}
+                  <td className='project-table__body-row-cell'>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '5px',
+                      }}
+                    >
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          Github
+                        </a>
+                      )}
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                        >
+                          Site Web
+                        </a>
+                      )}
+                    </div>
+                  </td>
+
+                  <td className='project-table__body-row-cell project-table__body-row-cell--actions'>
+                    <button
+                      className='project-table__button project-table__button--edit'
+                      onClick={() => handleEdit(project)}
+                      disabled={isDeleting}
+                    >
+                      Modifier
+                    </button>
+                    <button
+                      className='project-table__button project-table__button--delete'
+                      onClick={() => handleDelete(project._id)}
+                      disabled={isDeleting}
+                    >
+                      {isDeleting ? '...' : 'Supprimer'}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

@@ -45,12 +45,15 @@ app.use(cors(corsOptions));
 app.set('trust proxy', 1);
 
 // Redirect http to https
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(`https://${req.get('host')}${req.url}`);
-  }
-  next();
-});
+// Redirect http to https
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(`https://${req.get('host')}${req.url}`);
+    }
+    next();
+  });
+}
 
 // Routes
 app.use('/api/projects', projectsRoutes);

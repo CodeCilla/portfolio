@@ -1,19 +1,23 @@
 @use '../../scss/utils/main.scss' as utils;
+
 .projects {
   padding: 7rem 2rem 2rem 2rem;
+
   &__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    justify-content: center;
     margin: 0 auto;
     margin-top: 50px;
     border-radius: 20px;
-    @include utils.flexbox(column, center, center, 1rem, wrap);
   }
 }
+
 @media screen and (min-width: 768px) {
   .projects {
     &__container {
-      @include utils.flexbox(row, center, center, 1rem, wrap);
       max-width: 1000px;
-      margin-top: 50px;
     }
   }
 }

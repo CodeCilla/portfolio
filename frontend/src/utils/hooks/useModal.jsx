@@ -6,7 +6,7 @@ export const useModal = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Ompen modal and fetch project data
+  // Open modal and fetch project data
   const openModal = async (id) => {
     setLoading(true);
     const API_URL = import.meta.env.VITE_API_URL;

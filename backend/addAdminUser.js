@@ -16,8 +16,8 @@ mongoose
   .then(async () => {
     console.log('Connexion à MongoDB réussie');
 
-    email = '';
-    password = '';
+    const email = '';
+    const password = '';
 
     // Control if email and password are provided
     const existingUser = await User.findOne({ email });
