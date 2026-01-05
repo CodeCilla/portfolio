@@ -1,9 +1,9 @@
-require('dotenv').config(); // Ajoute cette ligne tout en haut
+require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./models/user');
 
-// Connexion à MongoDB
+// Connect to MongoDB
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
@@ -16,10 +16,10 @@ mongoose
   .then(async () => {
     console.log('Connexion à MongoDB réussie');
 
-    email = '';
-    password = '';
+    const email = '';
+    const password = '';
 
-    // Vérifie si l'utilisateur existe déjà
+    // Control if email and password are provided
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       console.log('Cet utilisateur existe déjà.');
@@ -27,10 +27,10 @@ mongoose
       return;
     }
 
-    // Hash du mot de passe
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Création de l'utilisateur
+    // Create new user
     const newUser = new User({
       email,
       password: hashedPassword,

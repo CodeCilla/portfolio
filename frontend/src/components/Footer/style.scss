@@ -1,21 +1,21 @@
 @use '../../scss/utils/main.scss' as utils;
 .footer {
   padding: 40px 20px;
-  @include utils.flexbox(column, center, center);
+  @include utils.flexbox(column, center, center, 2rem);
   max-width: 100%;
+  margin: 1rem auto;
 
   &__contact {
-    @include utils.flexbox(column, center, center);
+    @include utils.flexbox(column, center, center, 1rem);
   }
 
   &__title {
-    font-size: 2rem;
-    font-weight: bold;
+    @include utils.font('l', utils.$primary, 'medium');
     margin-bottom: 10px;
   }
 
   &__text {
-    font-size: 1.2rem;
+    @include utils.font('s', utils.$neutral-0, 'bold');
     margin-bottom: 8px;
 
     a {
@@ -23,13 +23,13 @@
       transition: color 0.3s ease-in-out;
 
       &:hover {
-        color: utils.$secondary; // Assombrissement au survol
+        color: utils.$secondary;
       }
     }
   }
 
   &__legals {
-    flex: 1; // Occupe l'autre moitié de l'espace
+    flex: 1;
     max-width: 100%;
     font-size: 1rem;
     text-align: right;
@@ -43,6 +43,10 @@
     &__contact {
       @include utils.flexbox(column, center, start);
     }
+    &__text {
+      @include utils.font('m', utils.$neutral-0, 'bold');
+    }
+
     &__legals {
       @include utils.flexbox(column, center, end);
     }

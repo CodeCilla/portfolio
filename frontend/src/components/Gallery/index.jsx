@@ -1,54 +1,66 @@
-import './style.scss';
-import { fetchProjects } from '../../api';
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Modal from 'react-modal';
+import { fetchProjects } from '../../api';
 import GalleryItem from '../GalleryItem';
 import ProjectModal from '../ProjectModal';
-
-// Configure ReactModal
-Modal.setAppElement('#root');
+import './style.scss';
 
 const Gallery = () => {
   const [projects, setProjects] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // Ajout de l'état pour l'erreur
+  const [loading, setLoading] = useState(true); // Chargement de la grille
+  const [error, setError] = useState(null);
 
+  // Gestion de la modale
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isProjectLoading, setIsProjectLoading] = useState(false); // Chargement spécifique à la modale
+
+  // 1. Récupération de tous les projets au montage
   useEffect(() => {
     const getProjects = async () => {
-      setLoading(true);
-      const data = await fetchProjects();
-      setProjects(data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const data = await fetchProjects();
+        setProjects(data);
+      } catch (err) {
+        console.error(err);
+        setError("Impossible de charger les projets.");
+      } finally {
+        setLoading(false);
+      }
     };
     getProjects();
   }, []);
 
-  const openModal = async (_id) => {
-    setLoading(true);
-
+  // 2. Ouvrir la modale et fetcher les détails
+  const openModal = async (id) => {
+    setIsModalOpen(true);
+    setIsProjectLoading(true); // On affiche un loader DANS la modale ou on attend
+    
     const API_URL = import.meta.env.VITE_API_URL;
 
     try {
-      const response = await fetch(`${API_URL}/api/projects/${_id}`);
+      // Note : Si ton tableau 'projects' contient déjà tout, ce fetch est inutile.
+      // Je le garde au cas où la liste est "allégée" et le détail "complet".
+      const response = await fetch(`${API_URL}/api/projects/${id}`);
+      
       if (!response.ok) {
-        throw new Error('Aucun projet trouvé avec cet ID');
+        throw new Error('Projet introuvable');
       }
+      
       const data = await response.json();
       setSelectedProject(data);
-      setIsOpen(true);
     } catch (err) {
       console.error('Erreur:', err.message);
-      setError(err.message); // Mise à jour de l'état de l'erreur
+      // Optionnel : Afficher l'erreur dans la modale ou fermer
+      alert("Erreur lors du chargement du projet"); 
+      closeModal();
     } finally {
-      setLoading(false);
+      setIsProjectLoading(false);
     }
   };
 
   const closeModal = () => {
-    setIsOpen(false);
+    setIsModalOpen(false);
     setSelectedProject(null);
   };
 
@@ -56,47 +68,44 @@ const Gallery = () => {
     <section id='projects' className='projects'>
       <h2>Mes projets</h2>
       <div className='border-h2'></div>
-      {loading && <p>Chargement...</p>}
-      {!loading && projects.length === 0 && <p>Aucun projet à afficher</p>}
-      {error && <p className='error-message'>{error}</p>}{' '}
-      {/* Affiche l'erreur s'il y en a */}
-      <ul className='projects__container'>
-        {projects.length > 0 ? (
-          projects
-            .slice()
-            .reverse()
-            .map(({ _id, image, title }) => (
+
+      {loading && <div className="loader">Chargement du portfolio...</div>}
+      
+      {error && <p className='error-message'>{error}</p>}
+
+      {!loading && !error && (
+        <ul className='projects__container'>
+          {projects.length > 0 ? (
+            // On inverse l'ordre pour avoir les plus récents en premier
+            [...projects].reverse().map((project) => (
               <GalleryItem
-                key={_id}
-                id={_id}
-                image={image}
-                title={title}
-                onClick={() => openModal(_id)}
+                key={project._id}
+                // Attention : On passe bien project.imageUrl ici
+                image={project.imageUrl} 
+                title={project.title}
+                skills={project.skills}
+                onClick={() => openModal(project._id)}
               />
             ))
-        ) : (
-          <p>Aucun projet trouvé.</p>
-        )}
-      </ul>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={closeModal}
-        contentLabel='Détails du projet'
-        className='modal'
-        overlayClassName='modal-overlay'
-      >
-        {selectedProject ? (
-          <ProjectModal project={selectedProject} onClose={closeModal} />
-        ) : (
-          <p>Chargement du projet...</p>
-        )}
-      </Modal>
+          ) : (
+            <p>Aucun projet à afficher pour le moment.</p>
+          )}
+        </ul>
+      )}
+
+      {/* Affichage Conditionnel de TA modale ProjectModal.
+        Plus besoin de react-modal.
+      */}
+      {isModalOpen && (selectedProject || isProjectLoading) && (
+        <ProjectModal 
+          // Si ça charge, on peut passer un objet vide ou null, ou gérer un loader interne
+          project={selectedProject} 
+          onClose={closeModal} 
+          isLoading={isProjectLoading} // Tu peux ajouter cette prop si tu veux afficher un spinner dans la modale
+        />
+      )}
     </section>
   );
-};
-
-Gallery.propTypes = {
-  children: PropTypes.func,
 };
 
 export default Gallery;

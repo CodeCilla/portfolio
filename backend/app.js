@@ -1,4 +1,3 @@
-// Import dotenv to hide
 require('dotenv').config();
 
 // Main dependencies
@@ -21,24 +20,49 @@ mongoose
 app.use(express.json());
 app.use(bodyParser.json());
 
-// CORS Cross Origin Resource Sharing
-app.use(cors());
+// CORS
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'https://www.priscillarenault.fr',
+      'https://api.priscillarenault.fr',
+      'http://localhost:5173',
+    ];
 
-// **Forcer Express à reconnaître HTTPS (Heroku utilise un proxy)**
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization',
+};
+
+app.use(cors(corsOptions));
+
+// Force https
 app.set('trust proxy', 1);
 
-// **Rediriger toutes les requêtes HTTP vers HTTPS**
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(`https://${req.get('host')}${req.url}`);
-  }
-  next();
-});
+// Redirect http to https
+// Redirect http to https
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(`https://${req.get('host')}${req.url}`);
+    }
+    next();
+  });
+}
 
 // Routes
 app.use('/api/projects', projectsRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.get('/', (req, res) => {
+  res.send('API is running 🚀');
+});
 
 // Export app to server.js
 module.exports = app;

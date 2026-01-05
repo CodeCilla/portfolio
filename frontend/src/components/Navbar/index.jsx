@@ -37,6 +37,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+<<<<<<< HEAD
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
   };
@@ -48,6 +49,34 @@ const Navbar = () => {
     { id: 'contact', label: t('contact'), type: 'link' },
     { id: 'cv', label: t('cv'), type: 'button' },
   ];
+=======
+  // Menu items with CV button included
+  const homeMenuItems = [
+    { id: 'about', label: 'Présentation', type: 'link' },
+    { id: 'projects', label: 'Projets', type: 'link' },
+    { id: 'contact', label: 'Contact', type: 'link' },
+    { id: 'cv', label: 'CV', type: 'button' }, // CV as a button
+  ];
+
+  const renderMenuItems = () =>
+    homeMenuItems.map((item) => (
+      <li key={item.id}>
+        {item.type === 'link' ? (
+          <a
+            href={`#${item.id}`}
+            onClick={() => setIsOpen(false)} // For mobile menu
+            className={activeSection === item.id ? 'active' : ''}
+          >
+            {item.label}
+          </a>
+        ) : item.id === 'cv' ? ( // CV button with link to PDF
+          <a href={CV} target='_blank' rel='noreferrer'>
+            <Button Text={item.label} />
+          </a>
+        ) : null}
+      </li>
+    ));
+>>>>>>> main
 
   return (
     <div className='navbar'>

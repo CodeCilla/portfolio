@@ -1,4 +1,4 @@
-@use '../utils/main.scss' as utils;
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 * {
   box-sizing: border-box;
 }
@@ -6,11 +6,15 @@
 html,
 body {
   margin: 0;
-  background-color: utils.$neutral-900;
+  background-color: #161616;
 }
 
 #root {
-  @include utils.flexbox(column, center, center);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
   min-height: 100%;
   width: 100%;
   max-width: 1250px;
@@ -106,8 +110,8 @@ video {
   border: 0;
   font-size: 100%;
   font: inherit;
-  font-family: utils.$font-text;
-  color: utils.$neutral-0;
+  font-family: "Mulish", sans-serif;
+  color: #fff;
 }
 
 h1,
@@ -116,18 +120,23 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: utils.$font-title;
+  font-family: "Prompt", serif;
 }
+
 h2 {
-  @include utils.font('l', utils.$neutral-0, 'medium');
+  font-size: 2rem;
+  color: #fff;
+  font-weight: 500;
 }
+
 .border-h2 {
   width: 6rem;
   height: 0.2rem;
   margin: 1rem 0 3rem 0;
-  background-color: utils.$primary;
+  background-color: #00a2f9;
   border-radius: 5px;
 }
+
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -140,13 +149,16 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
@@ -159,11 +171,11 @@ table {
 
 a {
   text-decoration: none;
-  color: utils.$neutral-0;
-  &:selected {
-    text-decoration: underline;
-  }
-  &:hover {
-    text-decoration: underline;
-  }
+  color: #fff;
+}
+a:selected {
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: underline;
 }

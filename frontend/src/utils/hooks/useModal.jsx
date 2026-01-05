@@ -6,7 +6,7 @@ export const useModal = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fonction pour ouvrir la modale et récupérer les données de l'API
+  // Open modal and fetch project data
   const openModal = async (id) => {
     setLoading(true);
     const API_URL = import.meta.env.VITE_API_URL;
@@ -26,7 +26,7 @@ export const useModal = () => {
     }
   };
 
-  // Fonction pour fermer la modale
+  // Close modal
   const closeModal = () => {
     setSelectedProject(null);
     setError(null);

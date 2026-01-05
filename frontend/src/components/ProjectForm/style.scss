@@ -1,113 +1,113 @@
 @use '../../scss/utils/main.scss' as utils;
-
 .project-form {
+  display: flex;
+  flex-direction: column;
   max-width: 600px;
   margin: 40px auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  background-color: utils.$neutral-0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
   &__title {
-    @include utils.font('l', utils.$neutral-100, 'bold');
-    margin-bottom: 20px;
+    @include utils.font('l', utils.$neutral-900, bold);
     text-align: center;
+    margin-bottom: 1.5rem;
   }
 
   &__group {
-    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+    margin-bottom: 1rem;
+  }
 
-    label {
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: utils.$neutral-100;
-    }
+  &__group label {
+    @include utils.font('s', utils.$neutral-900, bold);
+    margin-bottom: 0.5rem;
+  }
 
-    input,
-    textarea {
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 16px;
+  &__input,
+  &__textarea {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    background-color: utils.$neutral-300;
+    color: utils.$neutral-900;
+
+    &:focus {
       outline: none;
-      transition: border-color 0.3s;
-
-      &:focus {
-        border-color: utils.$primary;
-      }
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
+      border-color: utils.$primary;
     }
   }
 
-  &__skills {
+  &__textarea {
+    height: 120px;
+    resize: none;
+  }
+
+  &__skills-issues {
     display: flex;
-    gap: 10px;
-
-    input {
-      flex: 1;
-    }
-
-    .project-form__add-button {
-      padding: 10px 20px;
-      background: utils.$primary;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-
-      &:hover {
-        background: darken(utils.$primary, 10%);
-      }
-    }
+    align-items: center;
   }
 
-  &__skills-list {
-    list-style: none;
-    padding: 0;
-
-    .project-form__skill-item {
-      background: #e0e0e0;
-      color: #000;
-      margin-bottom: 5px;
-      padding: 10px;
-      border-radius: 5px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      button {
-        background: utils.$secondary;
-        border: none;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        cursor: pointer;
-
-        &:hover {
-          background: darken(utils.$secondary, 10%);
-        }
-      }
-    }
+  &__skills-issues input,
+  &__skills-issues textarea {
+    flex-grow: 1;
+    margin-right: 1rem;
   }
 
-  &__submit-button {
-    width: 100%;
-    padding: 15px;
-    background: utils.$primary;
-    color: #fff;
+  &__add-button {
+    background-color: utils.$primary;
+    color: utils.$neutral-0;
     border: none;
-    border-radius: 5px;
-    font-size: 18px;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.3s ease;
 
     &:hover {
-      background: darken(utils.$primary, 10%);
+      background-color: darken(utils.$primary, 20%);
     }
+  }
+
+  &__skills-issues--list,
+  &__skills-issues--item {
+    list-style: none;
+    color: utils.$neutral-900;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__skills-issues--list {
+    margin-top: 1rem;
+    padding-left: 0;
+  }
+
+  &__skills-issues--item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    background-color: utils.$neutral-300;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+
+  &__skills-issues--item button {
+    background-color: transparent;
+    border: none;
+    color: utils.$primary;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  &__error {
+    color: #ec4899;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
   }
 }

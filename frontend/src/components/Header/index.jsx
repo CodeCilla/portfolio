@@ -19,8 +19,13 @@ const Header = () => {
           />
         </div>
         <div>
+<<<<<<< HEAD
           <h1 className='header__title'>{t('header.title')} </h1>
           <p className='header__job'>{t('header.job')} </p>
+=======
+          <h1 className='header__title'>Priscilla RENAULT</h1>
+          <p className='header__job'>Développeuse Informatique</p>
+>>>>>>> main
 
           <div className='header__details'>
             <span>
@@ -32,7 +37,13 @@ const Header = () => {
                 {t('header.location')}
               </span>
             </span>
+<<<<<<< HEAD
             <p className='header__details--text'>{t('header.collaboration')}</p>
+=======
+            <p className='header__details--text'>
+              Recherche Apprentissage Bac+5 <br />
+            </p>
+>>>>>>> main
           </div>
           <div className='header__socials'>
             <a

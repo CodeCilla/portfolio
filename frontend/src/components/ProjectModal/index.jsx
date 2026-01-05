@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'; // Import de l'icône pour le site
 import './style.scss';
 
 const ProjectModal = ({ project, onClose }) => {
-  // Vérifie que le projet est bien défini
   if (!project) return null;
 
-  const { title, image, description, skills, github } = project;
+  const { title, imageUrl, description, skills, github, link } = project;
 
   return (
     <dialog className='modal' open>
@@ -13,32 +16,64 @@ const ProjectModal = ({ project, onClose }) => {
         <button onClick={onClose} className='modal__content--close'>
           Fermer
         </button>
+
         <div className='info'>
           <h3 className='info__title'>{title}</h3>
-          {image && (
-            <img src={image} alt={`image de {title}`} className='info__image' />
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt={`Aperçu de ${title}`}
+              className='info__image'
+            />
           )}
         </div>
+
         <div className='details'>
           <div>
             <h4 className='details__title'>Description</h4>
-            <p className='details__content'>{description}</p>
+            <div className='details__content markdown-body'>
+              <ReactMarkdown>{description}</ReactMarkdown>{' '}
+            </div>
           </div>
+
           <div>
             <h4 className='details__title'>Technologies</h4>
-            <ul className='details__content'>
+            <ul className='details__content tags-group'>
               {skills.map((skill, index) => (
-                <li key={index}>{skill}</li>
+                <li key={index} className='tag'>
+                  {skill}
+                </li>
               ))}
             </ul>
           </div>
         </div>
 
         <footer className='modal-footer'>
-          <a href={github} target='_blank' rel='noreferrer'>
-            {' '}
-            Voir sur GitHub
-          </a>
+          {/* Lien vers le site (Icône Globe) */}
+          {link && (
+            <a
+              href={link}
+              target='_blank'
+              rel='noreferrer'
+              aria-label='Voir le site en ligne' // Très important pour l'accessibilité car il n'y a plus de texte
+              className='modal-footer__link'
+            >
+              <FontAwesomeIcon icon={faGlobe} className='modal-footer__icon' />
+            </a>
+          )}
+
+          {/* Lien vers GitHub (Icône Github) */}
+          {github && (
+            <a
+              href={github}
+              target='_blank'
+              rel='noreferrer'
+              aria-label='Voir le code sur Github'
+              className='modal-footer__link'
+            >
+              <FontAwesomeIcon icon={faGithub} className='modal-footer__icon' />
+            </a>
+          )}
         </footer>
       </div>
     </dialog>
@@ -48,10 +83,12 @@ const ProjectModal = ({ project, onClose }) => {
 ProjectModal.propTypes = {
   project: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    skills: PropTypes.arrayOf(PropTypes.string),
+    imageUrl: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    skills: PropTypes.arrayOf(PropTypes.string).isRequired,
     github: PropTypes.string,
+    link: PropTypes.string,
+    userId: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
 };

@@ -30,13 +30,13 @@ const LoginForm = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Stockage du token dans le localStorage
+      // Save token in localStorage
       localStorage.setItem('authToken', data.token);
 
       alert('Connexion réussie !');
       setEmail('');
       setPassword('');
-      navigate('/dashboard'); // Redirection vers la page dashboard après connexion
+      navigate('/dashboard'); // Redirect to dashboard
     } catch (err) {
       setError(err.message);
     } finally {
