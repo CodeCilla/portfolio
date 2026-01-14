@@ -18,7 +18,7 @@ const Header = () => {
         </div>
         <div>
           <h1 className='header__title'>Priscilla RENAULT</h1>
-          <p className='header__job'>Développeuse Informatique</p>
+          <p className='header__job'>Alternante Ingénieure Logiciel bac+5</p>
 
           <div className='header__details'>
             <span>
@@ -45,7 +45,7 @@ const Header = () => {
             </a>
 
             <a
-              href='https://github.com/PriscillaRenault'
+              href='https://github.com/CodeCilla'
               target='_blank'
               aria-label='Voir mon profil Github'
             >
