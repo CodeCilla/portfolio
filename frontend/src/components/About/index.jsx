@@ -22,9 +22,11 @@ const about = () => {
           décision stratégiques.
           <br />
           <br />
-          Le déclic pour l&apos;ingénierie des données est né de ma gestion de{' '}
-          <span className='highlight'>migrations complexes (v16 vers v19)</span>
-          , impliquant la restructuration et l&apos;intégrité de flux critiques.
+          Initialement formée en{' '}
+          <span className='highlight'>analyse de données géoréférencées</span>,
+          mon retour vers l&apos;ingénierie a été confirmé par ma gestion de{' '}
+          <span className='highlight'>migrations complexes</span>, impliquant la
+          restructuration et l&apos;intégrité de flux critiques.
           <br />
           <br />
           Aujourd&apos;hui, je prépare un{' '}
