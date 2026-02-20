@@ -8,30 +8,30 @@ const about = () => {
         <p className='about__content--text'>
           Hello, moi c&apos;est Priscilla,{' '}
           <span className='highlight'>
-            développeuse & future experte en ingénierie full-stack ou data.
+            développeuse au profil hybride & future Data Engineer.
           </span>{' '}
         </p>
         <p className='about__content--text'>
-          Développeuse au <span className='highlight'>profil hybride,</span>{' '}
-          j&apos;allie 15 ans d&apos;expérience commerciale à une solide
-          expertise technique{' '}
+          J&apos;allie{' '}
           <span className='highlight'>
-            JavaScript, React, Python/Odoo, Java.
+            15 ans d&apos;expérience commerciale
           </span>{' '}
-          Après avoir piloté l&apos;intégration de modules complexes et
-          d&apos;API en entreprise, je souhaite aujourd&apos;hui évoluer vers{' '}
-          <span className='highlight'>la conception globale</span> de solutions
-          performantes. <br />
+          à une expertise technique centrée sur la performance. Spécialisée en{' '}
+          <span className='highlight'>Python, Java et SQL</span>, je me
+          passionne pour la transformation de données brutes en leviers de
+          décision stratégiques.
           <br />
-          Convaincue que la technique doit servir la stratégie, je souhaite
-          préparer un{' '}
-          <span className='highlight'>
-            Bac+5 en Ingénierie logicielle ou Data Engineer
-          </span>{' '}
-          en alternance. Mon objectif est de bâtir des systèmes scalables, de{' '}
-          <span className='highlight'>valoriser vos données</span> et
-          d&apos;aligner chaque brique logicielle sur vos{' '}
-          <span className='highlight'>enjeux business.</span>
+          <br />
+          Le déclic pour l&apos;ingénierie des données est né de ma gestion de{' '}
+          <span className='highlight'>migrations complexes (v16 vers v19)</span>
+          , impliquant la restructuration et l&apos;intégrité de flux critiques.
+          <br />
+          <br />
+          Aujourd&apos;hui, je prépare un{' '}
+          <span className='highlight'>Mastère Data Engineer</span> en alternance
+          avec un objectif clair : concevoir des pipelines de données scalables
+          et modéliser des systèmes robustes capables de soutenir vos{' '}
+          <span className='highlight'>enjeux business les plus ambitieux</span>.
         </p>
       </div>
     </section>

@@ -18,7 +18,7 @@ const Header = () => {
         </div>
         <div>
           <h1 className='header__title'>Priscilla RENAULT</h1>
-          <p className='header__job'>Alternante Architecte Logiciel bac+5</p>
+          <p className='header__job'>Alternante Data Engineer bac+5</p>
 
           <div className='header__details'>
             <span>
@@ -26,7 +26,7 @@ const Header = () => {
                 icon={faLocationDot}
                 className='header__icon--Location'
               />
-              <span className='header__details--text'>Le Mans France</span>
+              <span className='header__details--text'>Sarthe - PACA</span>
             </span>
             <p className='header__details--text'>
               Recherche Apprentissage Bac+5 <br />
