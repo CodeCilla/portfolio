@@ -8,32 +8,29 @@ const about = () => {
         <p className='about__content--text'>
           Hello, moi c&apos;est Priscilla,{' '}
           <span className='highlight'>
-            développeuse au profil hybride & future Data Engineer.
+            développeuse Full Stack au profil hybride & stratégique.
           </span>{' '}
         </p>
         <p className='about__content--text'>
           J&apos;allie{' '}
           <span className='highlight'>
-            15 ans d&apos;expérience commerciale
+            15 ans d&apos;expertise commerciale
           </span>{' '}
-          à une expertise technique centrée sur la performance. Spécialisée en{' '}
-          <span className='highlight'>Python, Java et SQL</span>, je me
-          passionne pour la transformation de données brutes en leviers de
-          décision stratégiques.
+          à une maîtrise technique orientée vers la performance logicielle. 
+          Spécialisée dans les écosystèmes <span className='highlight'>JavaScript (Node.js/React), Python et Java</span>, 
+          je conçois des architectures robustes et scalables capables de répondre à des besoins métiers complexes.
           <br />
           <br />
-          Initialement formée en{' '}
-          <span className='highlight'>analyse de données géoréférencées</span>,
-          mon retour vers l&apos;ingénierie a été confirmé par ma gestion de{' '}
-          <span className='highlight'>migrations complexes</span>, impliquant la
-          restructuration et l&apos;intégrité de flux critiques.
+          Mon expertise s&apos;est consolidée à travers la gestion de{' '}
+          <span className='highlight'>migrations d&apos;infrastructures critiques</span> et l&apos;intégration de flux d&apos;API, 
+          garantissant la continuité et l&apos;intégrité des systèmes en production.
           <br />
           <br />
           Aujourd&apos;hui, je prépare un{' '}
-          <span className='highlight'>Mastère Data Engineer</span> en alternance
-          avec un objectif clair : concevoir des pipelines de données scalables
-          et modéliser des systèmes robustes capables de soutenir vos{' '}
-          <span className='highlight'>enjeux business les plus ambitieux</span>.
+          <span className='highlight'>Mastère Expert en Développement Full Stack</span> en alternance. 
+          Mon objectif : piloter vos projets de la conception de l&apos;interface à l&apos;optimisation serveur, 
+          pour transformer vos{' '}
+          <span className='highlight'>enjeux business en solutions digitales pérennes</span>.
         </p>
       </div>
     </section>
